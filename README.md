@@ -44,8 +44,9 @@ This extension is licensed under the [MIT License](https://github.com/alexandret
 
 - 0.0.1: Initial release
 - 1.1.3: Fix bug
-- 1.1.4: LTS
-
+- 1.1.4: Added C#
+- 1.1.5: Added C++
+- 1.1.6: LTS
 
 **Enjoy!**
 by Alexandre Trieste
