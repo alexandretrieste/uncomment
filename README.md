@@ -1,6 +1,6 @@
 # Uncomment Extension
 
-![Uncomment Extension](https://github.com/alexandretrieste/image_for_Readme/blob/main/icon.jpg)
+![Uncomment Extension](https://github.com/alexandretrieste/image_for_Readme/blob/main/favicon.jpg)
 
 A VS Code extension to remove comments from code.
 
