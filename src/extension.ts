@@ -1,3 +1,28 @@
+import * as vscode from 'vscode';
+
+export function activate(context: vscode.ExtensionContext) {
+    let disposable = vscode.commands.registerCommand('remove-comments.execute', () => {
+        const editor = vscode.window.activeTextEditor;
+
+        if (editor) {
+            const document = editor.document;
+            const text = document.getText();
+
+            const noComments = removeComments(text);
+
+            editor.edit(editBuilder => {
+                const firstLine = document.lineAt(0);
+                const lastLine = document.lineAt(document.lineCount - 1);
+                const fullRange = new vscode.Range(firstLine.range.start, lastLine.range.end);
+
+                editBuilder.replace(fullRange, noComments);
+            });
+        }
+    });
+
+    context.subscriptions.push(disposable);
+}
+
 function removeComments(text: string): string {
     const lines = text.split('\n');
     let inCommentBlock = false;

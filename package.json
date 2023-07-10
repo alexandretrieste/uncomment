@@ -2,7 +2,7 @@
   "name": "uncomment",
   "displayName": "uncomment",
   "description": "Remove all comments along the code",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "icon": "./favicon.jpg",
   "author": "Alexandre Trieste - Software Engineer",
   "publisher": "Revolution50",
