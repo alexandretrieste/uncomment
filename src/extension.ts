@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 
 export function activate(context: vscode.ExtensionContext) {
-    let disposable = vscode.commands.registerCommand('remove-comments.execute', () => {
+    let disposable = vscode.commands.registerCommand('uncomment.execute', () => {
         const editor = vscode.window.activeTextEditor;
 
         if (editor) {

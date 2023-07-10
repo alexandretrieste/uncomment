@@ -2,3 +2,7 @@ dist
 node_modules
 .DS_Store
 *.vsix
+.vscode/launch.json
+.vscode
+launch.json
+.vscode/task.json

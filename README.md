@@ -43,7 +43,7 @@ This extension is licensed under the [MIT License](https://github.com/alexandret
 ## Release Notes
 
 - 0.0.1: Initial release
-
+- 1.1.3: Fix bug
 
 
 **Enjoy!**
