@@ -49,7 +49,8 @@ This extension is licensed under the [MIT License](https://github.com/alexandret
 - 1.2.5: Staging2
 - 1.2.6: Feature remove all extra lines left by comments
 - 1.2.7: Added Markdown support
-- 1.2.8: LTS
+- 1.2.8: Added support
+- 1.2.9: LTS
 
 
 **Enjoy!**
