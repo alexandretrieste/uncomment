@@ -1,6 +1,6 @@
 # Uncomment Extension
 
-<!-- ![Uncomment Extension](https://github.com/alexandretrieste/image_for_Readme/blob/main/favicon.jpg) -->
+
 
 A VS Code extension to remove comments from code.
 
@@ -8,7 +8,7 @@ A VS Code extension to remove comments from code.
 
 - Remove comments from JavaScript, HTML, and CSS files.
 - Supports single-line and multi-line comments.
-- Removes both line comments (e.g., `// Comment`) and block comments (e.g., ``).
+- Removes both line comments (e.g., `// Comment`) and block comments (e.g., `/* Comment */`).
 - Provides a command to remove comments from the active text editor.
 
 ## Usage
@@ -38,7 +38,7 @@ Contributions are welcome! Please fork this repository and submit a pull request
 
 ## License
 
-This extension is licensed under the [MIT License](https://github.com/alexandretrieste/uncomment/blob/main/LICENSE).
+This extension is licensed under the [MIT License](https:
 
 ## Release Notes
 
@@ -53,7 +53,11 @@ This extension is licensed under the [MIT License](https://github.com/alexandret
 - 1.2.0: Fix bug on remove comment in CSS
 - 1.2.1: Chore: resolve the minor mistake
 - 1.2.2: Feature: Remove golang comment
-- 1.2.3: LTS
+- 1.2.3: Incremet
+- 1.2.4: Staging1
+- 1.2.5: Staging2
+- 1.2.6: Feature remove all extra lines left by comments
+- 1.2.7: LTS
 
 **Enjoy!**
 by Alexandre Trieste
