@@ -35,10 +35,8 @@ function removeComments(text: string): string {
         if (inCommentBlock) {
             if (line.includes('*/')) {
                 inCommentBlock = false;
-                continue;
-            } else {
-                continue;
             }
+            continue;
         }
 
         if (inMarkupComment) {
@@ -50,19 +48,27 @@ function removeComments(text: string): string {
 
         if (line.includes('/*')) {
             if (line.includes('*/')) {
+                const startIndex = line.indexOf('/*');
+                const endIndex = line.indexOf('*/') + 2;
+                const preservedText = line.substring(startIndex, endIndex);
+                const remainingText = line.replace(preservedText, '');
+                cleanedLines.push(remainingText);
                 continue;
             } else {
                 inCommentBlock = true;
-                continue;
             }
         }
 
         if (line.includes('<!--')) {
             if (line.includes('-->')) {
+                const startIndex = line.indexOf('<!--');
+                const endIndex = line.indexOf('-->') + 3;
+                const preservedText = line.substring(startIndex, endIndex);
+                const remainingText = line.replace(preservedText, '');
+                cleanedLines.push(remainingText);
                 continue;
             } else {
                 inMarkupComment = true;
-                continue;
             }
         }
 
@@ -74,12 +80,12 @@ function removeComments(text: string): string {
 
 function removeLineComments(line: string): string {
     const lineComments = ['//', '#', ';', '--'];
-    let cleanedLine = line.trim();
+    let cleanedLine = line;
 
     for (const comment of lineComments) {
         const index = cleanedLine.indexOf(comment);
         if (index !== -1) {
-            cleanedLine = cleanedLine.slice(0, index).trim();
+            cleanedLine = cleanedLine.slice(0, index).trimRight();
             break;
         }
     }
