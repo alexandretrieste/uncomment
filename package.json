@@ -2,7 +2,7 @@
   "name": "uncomment",
   "displayName": "uncomment",
   "description": "Remove all comments along the code",
-  "version": "1.2.14",
+  "version": "1.2.8",
   "icon": "./favicon.png",
   "author": "Alexandre Trieste - Software Engineer",
   "publisher": "Revolution50",
@@ -29,17 +29,17 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run release",
+    "vscode:prepublish": "npm run package",
     "compile": "webpack",
     "watch": "webpack --watch",
     "package": "webpack --mode production --devtool hidden-source-map",
-    "publish": "vsce package && vsce publish",
-    "release": "npm version patch && npm install && npm run package && npm run publish",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "pre-release": "npm version patch && npm install && npm run package && vsce package",
+    "release": "vsce publish"
   },
   "devDependencies": {
     "@types/vscode": "^1.60.0",
