@@ -39,8 +39,11 @@
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
     "increment-version": "sh increment-version.sh",
-    "release": "npm run increment-version && npm install && npm run package && vsce package && vsce publish"
+    "pre-release": "npm run increment-version && npm install && npm run package && vsce package && vsce publish",
+    "release": "npm run pre-release && npm run publish-changes",
+    "publish-changes": "sh publish-changes.sh"
   },
+
   "devDependencies": {
     "@types/vscode": "^1.60.0",
     "@types/glob": "^8.1.0",
