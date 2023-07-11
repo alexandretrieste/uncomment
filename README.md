@@ -6,7 +6,7 @@ ainda assim, vou vivendo as evidencias de uma louca aventura country -->
 ## Features
 - Remove comments from JavaScript, HTML, and CSS files.
 - Supports single-line and multi-line comments.
-- Removes both line comments (e.g., ) and block comments (e.g., ).
+- Removes both line comments (e.g.,`//comment` ) and block comments (e.g., `/*comment*/`).
 - Provides a command to remove comments from the active text editor.
 
 ## Usage
