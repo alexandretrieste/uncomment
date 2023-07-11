@@ -25,53 +25,37 @@ export function activate(context: vscode.ExtensionContext) {
 
 function removeComments(text: string): string {
   const lines = text.split('\n');
-  const resultLines = [];
+
+  let insideBlockComment = false;
+  let resultLines = [];
 
   for (const line of lines) {
     const trimmedLine = line.trim();
 
-    const isLineInsideBlockComment = isInsideBlockComment(line, trimmedLine);
-
-    if (!isLineInsideBlockComment) {
-      const modifiedLine = removeInlineComment(trimmedLine);
-      resultLines.push(line.replace(trimmedLine, modifiedLine));
+    if (insideBlockComment) {
+      // Check if the block comment ends in this line
+      if (trimmedLine.includes('*/')) {
+        insideBlockComment = false;
+        resultLines.push('');
+      }
     } else {
-      resultLines.push(line);
+      // Check if the line contains a block comment that starts and ends in the same line
+      if (trimmedLine.includes('/*') && trimmedLine.includes('*/')) {
+        // Remove the block comment from the line
+        const modifiedLine = trimmedLine.replace(/\/\*.*\*\//, '');
+        resultLines.push(modifiedLine);
+      } else {
+        // Remove block comments and inline comments
+        const modifiedLine = trimmedLine.replace(/\/\*.*\*\//g, '').replace(/\/\/.*/, '');
+        resultLines.push(modifiedLine);
+      }
+
+      // Check if the line starts a block comment
+      if (trimmedLine.startsWith('/*') && !trimmedLine.endsWith('*/')) {
+        insideBlockComment = true;
+      }
     }
   }
 
   return resultLines.join('\n');
-}
-
-function isInsideBlockComment(line: string, trimmedLine: string): boolean {
-  let insideBlockComment = false;
-
-  if (trimmedLine.startsWith('/*') && trimmedLine.endsWith('*/')) {
-    // The entire line is a block comment
-    insideBlockComment = true;
-  } else if (trimmedLine.startsWith('/*')) {
-    // The block comment starts in this line but ends in a later line
-    insideBlockComment = true;
-  } else if (trimmedLine.endsWith('*/')) {
-    // The block comment ends in this line but starts in an earlier line
-    const previousLine = line.substring(0, line.lastIndexOf(trimmedLine));
-    if (!previousLine.includes('/*')) {
-      insideBlockComment = true;
-    }
-  } else if (trimmedLine.includes('/*') && trimmedLine.includes('*/')) {
-    // The block comment starts and ends in this line
-    const modifiedLine = trimmedLine.replace(/\/\*.*\*\//, '');
-    const indentation = line.substring(0, line.indexOf(trimmedLine));
-    resultLines.push(`${indentation}${modifiedLine}`);
-  }
-
-  return insideBlockComment;
-}
-
-function removeInlineComment(line: string): string {
-  const inlineCommentIndex = line.indexOf('//');
-  if (inlineCommentIndex !== -1) {
-    return line.substring(0, inlineCommentIndex);
-  }
-  return line;
 }
