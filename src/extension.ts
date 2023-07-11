@@ -24,11 +24,10 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function removeComments(text: string): string {
-  const cleanedText = text.replace(/((['"`]).*?\2)|\/\/.*|\/\*[^]*?\*\/|/g, 
-  (match, group1) => group1 ? match : '');
+  const cleanedText = text.replace(/((['"`]).*?\2)|(?<!https:)\/\/.*|\/\*[^]*?\*\/|(?<!:)<!--[^]*?-->/g,
+    (match, group1) => group1 ? match : '');
 
-  const normalizedText = cleanedText.replace(/\n{1,}/g, '\n');
+  const normalizedText = cleanedText.replace(/\n{3,}/g, '\n');
 
   return normalizedText;
 }
-
