@@ -36,24 +36,35 @@ function removeComments(text: string): string {
       // Check if the block comment ends in this line
       if (trimmedLine.includes('*/')) {
         insideBlockComment = false;
+        const remainingText = line.slice(line.indexOf('*/') + 2);
+        resultLines.push(remainingText);
+        continue;
       }
-    } else {
-      // Check if the line contains a block comment that starts and ends in the same line
-      if (trimmedLine.includes('/*') && trimmedLine.includes('*/')) {
-        // Remove the block comment from the line
-        const modifiedLine = line.replace(/\/\*.*\*\//, '');
-        resultLines.push(modifiedLine);
-      } else {
-        // Remove block comments and inline comments
-        const modifiedLine = line.replace(/\/\*.*\*\//g, '').replace(/\/\/.*/, '');
-        resultLines.push(modifiedLine);
-      }
+      continue;
+    }
 
-      // Check if the line starts a block comment
-      if (trimmedLine.startsWith('/*') && !trimmedLine.endsWith('*/')) {
-        insideBlockComment = true;
+    let newLine = '';
+    let currentIndex = 0;
+    while (currentIndex < line.length) {
+      if (line.startsWith('//', currentIndex)) {
+        // Line comment found, skip the rest of the line
+        break;
+      } else if (line.startsWith('/*', currentIndex)) {
+        // Block comment found, check if it ends in this line
+        const endIndex = line.indexOf('*/', currentIndex + 2);
+        if (endIndex !== -1) {
+          currentIndex = endIndex + 2;
+        } else {
+          insideBlockComment = true;
+          break;
+        }
+      } else {
+        newLine += line[currentIndex];
+        currentIndex++;
       }
     }
+
+    resultLines.push(newLine);
   }
 
   return resultLines.join('\n');
