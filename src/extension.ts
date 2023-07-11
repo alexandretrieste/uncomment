@@ -24,8 +24,8 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function removeComments(text: string): string {
-  // Regex pattern to match comments that are not inside quotes or templates
-  const commentPattern = /(['"`])(?:[^\\]|\\.)*?\1|\/\/.*|\/\*[\s\S]*?\*\//g;
+  // Regex pattern to match comments that are not inside quotes, templates, or HTML tags
+  const commentPattern = /(<[^>]*>)|(['"`])(?:[^\\]|\\.)*?\2|\/\/.*|\/\*[\s\S]*?\*\//g;
 
   return text.replace(commentPattern, '').replace(/^\s*[\r\n]/gm, '\n');
 }
