@@ -51,7 +51,8 @@ This extension is licensed under the [MIT License](https://github.com/alexandret
 - 1.1.8: Fix bug patch
 - 1.1.9: Fix bug on remove comment in HTML
 - 1.2.0: Fix bug on remove comment in CSS
-- 1.2.1: LST
+- 1.2.1: Chore: resolve the minor mistake
+- 1.2.2 LTS
 
 **Enjoy!**
 by Alexandre Trieste
