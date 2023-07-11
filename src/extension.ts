@@ -10,12 +10,15 @@ export function activate(context: vscode.ExtensionContext) {
 
       const noComments = removeComments(text);
 
-      editor.edit((editBuilder: string) => {
+      editor.edit((editBuilder: vscode.TextEditorEdit) => {
         const firstLine = document.lineAt(0);
         const lastLine = document.lineAt(document.lineCount - 1);
         const fullRange = new vscode.Range(firstLine.range.start, lastLine.range.end);
 
-        editBuilder.replace(fullRange, noComments);
+        const oldText = editor.document.getText(fullRange);
+        const newText = oldText.replace(oldText, noComments);
+
+        editBuilder.replace(fullRange, newText);
       });
     }
   });
