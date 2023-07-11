@@ -47,7 +47,11 @@ This extension is licensed under the [MIT License](https://github.com/alexandret
 - 1.1.4: Added C#
 - 1.1.5: Added C++
 - 1.1.6: Added CSS and HTML
-- 1.1.7: LTS
+- 1.1.7: Fix bug minor
+- 1.1.8: Fix bug patch
+- 1.1.9: Fix bug on remove comment in HTML
+- 1.2.0: Fix bug on remove comment in CSS
+- 1.2.1: LST
 
 **Enjoy!**
 by Alexandre Trieste

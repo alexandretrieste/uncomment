@@ -128,9 +128,9 @@ function removeMarkupComments(line: string, inMarkupComment: boolean): string {
         inMarkupComment = true;
         const startIndex = cleanedLine.indexOf('<!--');
         cleanedLine = cleanedLine.slice(0, startIndex);
+      }
     }
-  }
 
-  return cleanedLine;
-    }
+    return cleanedLine;
+  }
 }
