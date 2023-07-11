@@ -46,7 +46,8 @@ This extension is licensed under the [MIT License](https://github.com/alexandret
 - 1.1.3: Fix bug
 - 1.1.4: Added C#
 - 1.1.5: Added C++
-- 1.1.6: LTS
+- 1.1.6: Added CSS and HTML
+- 1.1.7: LTS
 
 **Enjoy!**
 by Alexandre Trieste
