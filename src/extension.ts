@@ -28,13 +28,18 @@ function removeComments(text: string): string {
     const cleanedLines: string[] = [];
     let inCommentBlock = false;
     let inMarkupComment = false;
+    let inQuotedString = false;
+    let quoteChar = '';
 
     for (const line of lines) {
-        const cleanedLine = removeLineComments(line);
+        const cleanedLine = removeLineComments(line, inQuotedString);
 
         if (inCommentBlock) {
             if (line.includes('*/')) {
                 inCommentBlock = false;
+                const remainingText = line.slice(line.indexOf('*/') + 2);
+                cleanedLines.push(remainingText);
+                continue;
             }
             continue;
         }
@@ -42,51 +47,69 @@ function removeComments(text: string): string {
         if (inMarkupComment) {
             if (line.includes('-->')) {
                 inMarkupComment = false;
+                const remainingText = line.slice(line.indexOf('-->') + 3);
+                cleanedLines.push(remainingText);
+                continue;
             }
             continue;
         }
 
-        if (line.includes('/*')) {
-            if (line.includes('*/')) {
-                const startIndex = line.indexOf('/*');
-                const endIndex = line.indexOf('*/') + 2;
-                const preservedText = line.substring(startIndex, endIndex);
-                const remainingText = line.replace(preservedText, '');
-                cleanedLines.push(remainingText);
-                continue;
+        let newLine = '';
+        let currentIndex = 0;
+        while (currentIndex < line.length) {
+            if (inQuotedString) {
+                const nextQuoteIndex = line.indexOf(quoteChar, currentIndex);
+                if (nextQuoteIndex !== -1) {
+                    newLine += line.slice(currentIndex, nextQuoteIndex + 1);
+                    currentIndex = nextQuoteIndex + 1;
+                    inQuotedString = false;
+                } else {
+                    newLine += line.slice(currentIndex);
+                    break;
+                }
             } else {
-                inCommentBlock = true;
+                const nextCommentIndex = line.indexOf('/*', currentIndex);
+                const nextQuoteCharIndex = line.indexOf(`'`, currentIndex) < line.indexOf(`"`, currentIndex) ?
+                    line.indexOf(`'`, currentIndex) :
+                    line.indexOf(`"`, currentIndex);
+
+                if (nextCommentIndex !== -1 && (!inQuotedString || nextCommentIndex < nextQuoteCharIndex)) {
+                    if (line.includes('*/', nextCommentIndex)) {
+                        newLine += line.slice(currentIndex, nextCommentIndex);
+                        currentIndex = line.indexOf('*/', nextCommentIndex) + 2;
+                    } else {
+                        newLine += line.slice(currentIndex, nextCommentIndex);
+                        inCommentBlock = true;
+                    }
+                } else if (nextQuoteCharIndex !== -1) {
+                    newLine += line.slice(currentIndex, nextQuoteCharIndex + 1);
+                    currentIndex = nextQuoteCharIndex + 1;
+                    inQuotedString = true;
+                    quoteChar = line[nextQuoteCharIndex];
+                } else {
+                    newLine += line.slice(currentIndex);
+                    break;
+                }
             }
         }
 
-        if (line.includes('<!--')) {
-            if (line.includes('-->')) {
-                const startIndex = line.indexOf('<!--');
-                const endIndex = line.indexOf('-->') + 3;
-                const preservedText = line.substring(startIndex, endIndex);
-                const remainingText = line.replace(preservedText, '');
-                cleanedLines.push(remainingText);
-                continue;
-            } else {
-                inMarkupComment = true;
-            }
-        }
-
-        cleanedLines.push(cleanedLine);
+        cleanedLines.push(newLine);
     }
 
     return cleanedLines.join('\n');
 }
 
-function removeLineComments(line: string): string {
+function removeLineComments(line: string, inQuotedString: boolean): string {
     const lineComments = ['//', '#', ';', '--'];
     let cleanedLine = line;
 
-    for (const comment of lineComments) {
-        const index = cleanedLine.indexOf(comment);
-        if (index !== -1) {
-            cleanedLine = cleanedLine.slice(0, index).trimRight();
-            break;
+    if (!inQuotedString) {
+        for (const comment of lineComments) {
+            const index = cleanedLine.indexOf(comment);
+            if (index !== -1) {
+                cleanedLine = cleanedLine.slice(0, index).trimRight();
+                break;
+            }
         }
     }
 
