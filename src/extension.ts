@@ -63,8 +63,21 @@ function removeComments(text: string): string {
         const nextQuoteCharIndex = cleanedLineWithoutMarkupComments.indexOf(`'`, currentIndex) < cleanedLineWithoutMarkupComments.indexOf(`"`, currentIndex) ?
           cleanedLineWithoutMarkupComments.indexOf(`'`, currentIndex) :
           cleanedLineWithoutMarkupComments.indexOf(`"`, currentIndex);
+        const nextMarkupCommentIndex = cleanedLineWithoutMarkupComments.indexOf('<!--', currentIndex);
+        const nextHashCommentIndex = cleanedLineWithoutMarkupComments.indexOf('#', currentIndex);
+        const nextDoubleSlashCommentIndex = cleanedLineWithoutMarkupComments.indexOf('//', currentIndex);
 
-        if (nextCommentIndex !== -1 && (!inQuotedString || nextCommentIndex < nextQuoteCharIndex)) {
+        const indices = [nextCommentIndex, nextQuoteCharIndex, nextMarkupCommentIndex, nextHashCommentIndex, nextDoubleSlashCommentIndex];
+        const validIndices = indices.filter(index => index !== -1);
+
+        if (validIndices.length === 0) {
+          newLine += cleanedLineWithoutMarkupComments.slice(currentIndex);
+          break;
+        }
+
+        const nextIndex = Math.min(...validIndices);
+
+        if (nextIndex === nextCommentIndex) {
           if (cleanedLineWithoutMarkupComments.includes('*/', nextCommentIndex)) {
             newLine += cleanedLineWithoutMarkupComments.slice(currentIndex, nextCommentIndex);
             currentIndex = cleanedLineWithoutMarkupComments.indexOf('*/', nextCommentIndex) + 2;
@@ -72,13 +85,24 @@ function removeComments(text: string): string {
             newLine += cleanedLineWithoutMarkupComments.slice(currentIndex, nextCommentIndex);
             inCommentBlock = true;
           }
-        } else if (nextQuoteCharIndex !== -1) {
+        } else if (nextIndex === nextQuoteCharIndex) {
           newLine += cleanedLineWithoutMarkupComments.slice(currentIndex, nextQuoteCharIndex + 1);
           currentIndex = nextQuoteCharIndex + 1;
           inQuotedString = true;
           quoteChar = cleanedLineWithoutMarkupComments[nextQuoteCharIndex];
-        } else {
-          newLine += cleanedLineWithoutMarkupComments.slice(currentIndex);
+        } else if (nextIndex === nextMarkupCommentIndex) {
+          if (cleanedLineWithoutMarkupComments.includes('-->', nextMarkupCommentIndex)) {
+            newLine += cleanedLineWithoutMarkupComments.slice(currentIndex, nextMarkupCommentIndex);
+            currentIndex = cleanedLineWithoutMarkupComments.indexOf('-->', nextMarkupCommentIndex) + 3;
+          } else {
+            newLine += cleanedLineWithoutMarkupComments.slice(currentIndex, nextMarkupCommentIndex);
+            inMarkupComment = true;
+          }
+        } else if (nextIndex === nextHashCommentIndex) {
+          newLine += cleanedLineWithoutMarkupComments.slice(currentIndex, nextHashCommentIndex);
+          break;
+        } else if (nextIndex === nextDoubleSlashCommentIndex) {
+          newLine += cleanedLineWithoutMarkupComments.slice(currentIndex, nextDoubleSlashCommentIndex);
           break;
         }
       }
