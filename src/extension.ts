@@ -24,8 +24,30 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function removeComments(text: string): string {
-  // Regex pattern to match comments that are not inside quotes, templates, or HTML tags
-  const commentPattern = /(<[^>]*>)|(['"`])(?:[^\\]|\\.)*?\2|\/\/.*|\/\*[\s\S]*?\*\//g;
+  const urlRegex = /(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?/g;
+  const quotedRegex = /".*?"|'.*?'|`.*?`/g;
 
-  return text.replace(commentPattern, '').replace(/^\s*[\r\n]/gm, '\n');
+  let modifiedText = text;
+
+  // Replace URLs and quoted strings with placeholders
+  const urls = [];
+  const quoted = [];
+  modifiedText = modifiedText.replace(urlRegex, match => {
+    urls.push(match);
+    return `%%URL${urls.length - 1}%%`;
+  });
+  modifiedText = modifiedText.replace(quotedRegex, match => {
+    quoted.push(match);
+    return `%%QUOTED${quoted.length - 1}%%`;
+  });
+
+  // Remove comments
+  const commentsRegex = /(\/\/.*|\/\*[\s\S]*?\*\/|=begin[\s\S]*?=end|<!--[\s\S]*?-->)/g;
+  modifiedText = modifiedText.replace(commentsRegex, '');
+
+  // Replace placeholders with their original content
+  modifiedText = modifiedText.replace(/%%URL(\d+)%%/g, (_, index) => urls[Number(index)]);
+  modifiedText = modifiedText.replace(/%%QUOTED(\d+)%%/g, (_, index) => quoted[Number(index)]);
+
+  return modifiedText;
 }
