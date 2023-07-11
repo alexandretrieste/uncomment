@@ -10,7 +10,7 @@ export function activate(context: vscode.ExtensionContext) {
 
       const noComments = removeComments(text);
 
-      editor.edit(editBuilder => {
+      editor.edit((editBuilder: string) => {
         const firstLine = document.lineAt(0);
         const lastLine = document.lineAt(document.lineCount - 1);
         const fullRange = new vscode.Range(firstLine.range.start, lastLine.range.end);
@@ -29,9 +29,11 @@ function removeComments(text: string): string {
 
   let modifiedText = text;
 
+  // Declare and initialize URLs and quoted strings with their specific types
+  const urls: string[] = [];
+  const quoted: string[] = [];
+
   // Replace URLs and quoted strings with placeholders
-  const urls = [];
-  const quoted = [];
   modifiedText = modifiedText.replace(urlRegex, match => {
     urls.push(match);
     return `%%URL${urls.length - 1}%%`;
