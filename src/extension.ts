@@ -27,7 +27,7 @@ function removeComments(text: string): string {
   const lines = text.split('\n');
 
   let insideBlockComment = false;
-  let resultLines = [];
+  let resultLines: string[] = [];
 
   for (const line of lines) {
     const trimmedLine = line.trim();
@@ -36,17 +36,16 @@ function removeComments(text: string): string {
       // Check if the block comment ends in this line
       if (trimmedLine.includes('*/')) {
         insideBlockComment = false;
-        resultLines.push('');
       }
     } else {
       // Check if the line contains a block comment that starts and ends in the same line
       if (trimmedLine.includes('/*') && trimmedLine.includes('*/')) {
         // Remove the block comment from the line
-        const modifiedLine = trimmedLine.replace(/\/\*.*\*\//, '');
+        const modifiedLine = line.replace(/\/\*.*\*\//, '');
         resultLines.push(modifiedLine);
       } else {
         // Remove block comments and inline comments
-        const modifiedLine = trimmedLine.replace(/\/\*.*\*\//g, '').replace(/\/\/.*/, '');
+        const modifiedLine = line.replace(/\/\*.*\*\//g, '').replace(/\/\/.*/, '');
         resultLines.push(modifiedLine);
       }
 
