@@ -50,7 +50,8 @@ This extension is licensed under the [MIT License](https:
 - 1.2.6: Feature remove all extra lines left by comments
 - 1.2.7: Added Markdown support
 - 1.2.8: Added support
-- 1.2.9: LTS
+- 1.2.9: Staging3
+- 1.4.0: LTS
 
 **Enjoy!**
 by Alexandre Trieste
