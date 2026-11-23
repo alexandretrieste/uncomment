@@ -4,8 +4,6 @@ out
 .vscode-test
 .DS_Store
 *.vsix
-.vscode/launch.json
-.vscode
-launch.json
-.vscode/task.json
+.vscode/*
+!.vscode/launch.json
 increment-version.sh

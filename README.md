@@ -1,71 +1,83 @@
-# Uncomment Extension
-A VS Code extension to remove comments from code.
+# Uncomment
 
-<!-- eu nao sei mais o que fazer nesta triste tarde de domingo
-ainda assim, vou vivendo as evidencias de uma louca aventura country -->
+**Current version:** 1.4.1
+
+Uncomment is a Visual Studio Code extension that removes comments from the active
+editor while preserving comment-like text inside strings and URLs.
+
 ## Features
-- Remove comments in C/C++-style, JavaScript, Java, C#, Go, HTML, CSS, XML,
-  Python, Ruby, Shell, PowerShell, PHP, Lua, Julia, SQL, Markdown, Haskell,
-  Erlang/LaTeX, Clojure, Lisp, Batch and Ada files.
-- Supports single-line and multi-line comments.
-- Removes both line comments (e.g.,`//comment` ) and block comments 
-(e.g., `/*comment*/`).
-- Provides a command to remove comments from the active text editor.
 
-## Usage
-1. Open a file that contains comments in the Visual Studio Code editor.
-2. Use the keyboard shortcut  (Windows) or  (Mac) to remove the comments from the active text editor or  (Windows),  (Mac) and type Uncommited after this press Enter.
+- Removes single-line and block comments using the syntax for the active language.
+- Supports C-style comments (`//` and `/* ... */`), hash comments (`#`), SQL and
+  Lua line comments, HTML/XML comments, and other common language-specific forms.
+- Preserves line breaks and string contents when removing comments.
+- Runs on the active editor through the **Uncomment** command.
 
-## Requirements
-- Visual Studio Code 1.60.0 or higher
+The extension supports common language modes including C, C++, C#, CSS, Go,
+Java, JavaScript, TypeScript, PHP, Python, Ruby, Shell, PowerShell, R, YAML,
+Dockerfile, Makefile, Lua, Julia, SQL, HTML, XML, Markdown, Haskell, Elm, Ada,
+Erlang, LaTeX, Clojure, Lisp, and Batch. The comment syntax removed depends on
+the language mode selected by VS Code.
 
 ## Installation
-1. Launch Visual Studio Code.
-2. Open the Extensions view by clicking on the square icon in the left sidebar or pressing .
-3. Search for  in the Extensions view search box.
-4. Click on the  button for the  extension.
-5. Once installed, the extension will be ready to use.
 
-## Known Issues
-None at the moment.
+Install **Uncomment** from the
+[Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=Revolution50.uncomment),
+or search for `Uncomment` in the Extensions view.
+
+## Usage
+
+1. Open a file in VS Code and make sure its language mode is set correctly.
+2. Open the Command Palette with `Ctrl+Shift+P` (Windows/Linux) or
+   `Cmd+Shift+P` (macOS).
+3. Run **Uncomment**.
+
+The extension processes the entire active document. It does not currently
+define a keyboard shortcut.
+
+## Run from VS Code
+
+To run the extension from this repository:
+
+1. Open the repository folder in VS Code.
+2. Run `npm install` in the integrated terminal.
+3. Press `F5` or select **Run > Start Debugging**. The **Run Extension**
+   configuration compiles the extension and opens a new Extension Development
+   Host window.
+4. In the new window, open a source file and run **Uncomment** from the
+   Command Palette.
+
+To build the extension manually, run `npm run compile`. To create the
+production bundle, run `npm run package`.
+
+## Requirements
+
+- Visual Studio Code 1.80.0 or later
+- Node.js and npm to build or run the extension from source
+
+## Known issues
+
+- Comment parsing is syntax-based and does not fully parse every language
+  grammar. Review the changes before saving files with complex embedded
+  languages or unusual syntax.
 
 ## Contributing
-Contributions are welcome! Please fork this repository and submit a pull request.
+
+Contributions and bug reports are welcome. Please open an issue or submit a
+pull request on [GitHub](https://github.com/alexandretrieste/uncomment).
 
 ## Releasing
+
 Add release notes under `Unreleased` in `CHANGELOG.md`, then run one of:
 
 - `npm run version:patch` for a backward-compatible fix
 - `npm run version:minor` for backward-compatible functionality
 - `npm run version:major` for breaking changes
 
-Each command updates `package.json` and the lockfile, promotes the unreleased notes
-to the new version, and creates a version commit and `v*` Git tag. Push the commit
-and its tag with `git push origin main --follow-tags`.
+Each command updates the package version, changelog, and README, then creates a
+version commit and a `v*` Git tag. Push the commit and tag with
+`git push origin main --follow-tags`.
 
 ## License
-This extension is licensed under the [MIT License](https:
 
-## Release Notes
-- 0.0.1: Initial release
-- 1.1.3: Fix bug
-- 1.1.4: Added C#
-- 1.1.5: Added C++
-- 1.1.6: Added CSS and HTML
-- 1.1.7: Fix bug minor
-- 1.1.8: Fix bug patch
-- 1.1.9: Fix bug on remove comment in HTML
-- 1.2.0: Fix bug on remove comment in CSS
-- 1.2.1: Chore: resolve the minor mistake
-- 1.2.2: Feature: Remove golang comment
-- 1.2.3: Incremet
-- 1.2.4: Staging1
-- 1.2.5: Staging2
-- 1.2.6: Feature remove all extra lines left by comments
-- 1.2.7: Added Markdown support
-- 1.2.8: Added support
-- 1.2.9: Staging3
-- 1.4.0: LTS
-
-**Enjoy!**
-by Alexandre Trieste
+This project is distributed under the [MIT License](LICENSE).
