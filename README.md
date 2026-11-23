@@ -4,7 +4,9 @@ A VS Code extension to remove comments from code.
 <!-- eu nao sei mais o que fazer nesta triste tarde de domingo
 ainda assim, vou vivendo as evidencias de uma louca aventura country -->
 ## Features
-- Remove comments from JavaScript, HTML, and CSS files.
+- Remove comments in C/C++-style, JavaScript, Java, C#, Go, HTML, CSS, XML,
+  Python, Ruby, Shell, PowerShell, PHP, Lua, Julia, SQL, Markdown, Haskell,
+  Erlang/LaTeX, Clojure, Lisp, Batch and Ada files.
 - Supports single-line and multi-line comments.
 - Removes both line comments (e.g.,`//comment` ) and block comments 
 (e.g., `/*comment*/`).
