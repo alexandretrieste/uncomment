@@ -6,7 +6,9 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const packageJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
 const changelogPath = path.join(root, 'CHANGELOG.md');
-const changelog = fs.readFileSync(changelogPath, 'utf8');
+const originalChangelog = fs.readFileSync(changelogPath, 'utf8');
+const newline = originalChangelog.includes('\r\n') ? '\r\n' : '\n';
+const changelog = originalChangelog.replace(/\r\n/g, '\n');
 const unreleasedHeading = '## [Unreleased]';
 const unreleasedIndex = changelog.indexOf(unreleasedHeading);
 
@@ -31,4 +33,5 @@ const date = new Date().toISOString().slice(0, 10);
 const releasedNotes = `## [${packageJson.version}] - ${date}\n\n${notes}`;
 const updated = `${changelog.slice(0, unreleasedIndex)}${unreleasedHeading}\n\n${releasedNotes}${changelog.slice(end)}`;
 
-fs.writeFileSync(changelogPath, updated, 'utf8');
+fs.writeFileSync(changelogPath, updated.replace(/\n/g, newline), 'utf8');
+require('child_process').execFileSync('git', ['add', '--', 'CHANGELOG.md'], { cwd: root, stdio: 'inherit' });
