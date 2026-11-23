@@ -6,4 +6,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
-- Initial release
+### Fixed
+- Remove comments according to the active file language while preserving comment-like text inside strings and URLs.
+- Update vulnerable development dependencies and their lockfile resolutions.

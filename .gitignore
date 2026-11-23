@@ -1,6 +1,7 @@
 dist
 node_modules
 out
+.vscode-test
 .DS_Store
 *.vsix
 .vscode/launch.json

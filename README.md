@@ -32,6 +32,17 @@ None at the moment.
 ## Contributing
 Contributions are welcome! Please fork this repository and submit a pull request.
 
+## Releasing
+Add release notes under `Unreleased` in `CHANGELOG.md`, then run one of:
+
+- `npm run version:patch` for a backward-compatible fix
+- `npm run version:minor` for backward-compatible functionality
+- `npm run version:major` for breaking changes
+
+Each command updates `package.json` and the lockfile, promotes the unreleased notes
+to the new version, and creates a version commit and `v*` Git tag. Push the commit
+and its tag with `git push origin main --follow-tags`.
+
 ## License
 This extension is licensed under the [MIT License](https:
 

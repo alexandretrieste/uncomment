@@ -14,7 +14,9 @@ suite('Extension Test Suite', () => {
 	});
 
 	test('removes JavaScript comments but preserves strings and URLs', () => {
-		const source = 'const url = "https://example.com/a//b"; // line\n/* block */\nconst text = \\'// text\\';';
+		const source = `const url = "https://example.com/a//b"; // line
+/* block */
+const text = '// text';`;
 		const result = removeComments(source, 'javascript');
 		assert.ok(result.includes('"https://example.com/a//b"'));
 		assert.ok(result.includes("'// text'"));
@@ -23,7 +25,10 @@ suite('Extension Test Suite', () => {
 	});
 
 	test('removes Python comments but preserves docstrings and strings', () => {
-		const source = '# comment\\nname = "# value"\\n"""# docstring"""\\nprint(name)';
+		const source = `# comment
+name = "# value"
+"""# docstring"""
+print(name)`;
 		const result = removeComments(source, 'python');
 		assert.ok(!result.includes('# comment'));
 		assert.ok(result.includes('name = "# value"'));
